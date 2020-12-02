@@ -32,6 +32,7 @@ namespace EventCalendar
             EndTime = endTime;
         }
 
+
         public string Name { get; set; }
         public EventTypes EventType { get; set; }
         public DateTime StartTime { get; set; }
@@ -39,10 +40,10 @@ namespace EventCalendar
 
         public enum EventTypes
         {
-            Coffee,
-            Lecture,
-            Concert,
-            StudySession
+            Coffee = 1,
+            Lecture = 2,
+            Concert = 3,
+            StudySession = 4
         }
 
     }
