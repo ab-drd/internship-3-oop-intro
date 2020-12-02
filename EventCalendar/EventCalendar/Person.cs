@@ -8,7 +8,7 @@ namespace EventCalendar
 {
     public class Person
     {
-        public Person(string firstName, string lastName, int oib, int phoneNumber)
+        public Person(string firstName, string lastName, long oib, long phoneNumber)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -17,7 +17,7 @@ namespace EventCalendar
         }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public int OIB { get; set; }
-        public int PhoneNumber { get; set; }
+        public long OIB { get; set; }
+        public long PhoneNumber { get; set; }
     }
 }
