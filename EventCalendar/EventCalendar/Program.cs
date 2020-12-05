@@ -30,13 +30,13 @@ namespace EventCalendar
             allEvents[newEvent2].Add(new Person("Iva", "Ivanic", 12523, 1294));
 
 
-            Console.WriteLine("\nDobrodosli na pocetak programa\n\n======================================");
+            Console.WriteLine("\n       >>>>>>   EVENT CALENDAR   <<<<<<\n\n===============================");
 
             //Action menu
             while (menuStopCondition)
             {
-                Console.WriteLine(actionCounter + ". akcija\n======================================\n");
-                Console.WriteLine("Unesite akciju:\n" +
+                Console.WriteLine(actionCounter + ". akcija || " + allEvents.Count + " event(a)\n===============================");
+                Console.WriteLine("\nUnesite akciju:\n\n" +
                     "1 - Dodavanje eventa\n" +
                     "2 - Brisanje eventa\n" +
                     "3 - Edit eventa\n" +
@@ -75,6 +75,7 @@ namespace EventCalendar
                         break;
 
                     case 0:
+                        Console.WriteLine("\nIzlazak iz aplikacije...\n");
                         menuStopCondition = false;
                         break;
 
@@ -120,13 +121,12 @@ namespace EventCalendar
             else
             {
 
-                PrintEventsInNumberNameFormat(eventList);
-                
                 var repeatCondition = true;
                 while (repeatCondition)
                 {
-
-                    Console.WriteLine("Unesite redni broj eventa koji zelite izbrisati:");
+                    Console.WriteLine(" ");
+                    PrintEventsInNumberNameFormat(eventList);
+                    Console.WriteLine("\nUnesite redni broj eventa koji zelite izbrisati:");
 
                     var deleteIndex = ValidIntInputAndCheck(1, eventList.Count);
                     var counter = 1;
@@ -266,6 +266,7 @@ namespace EventCalendar
                                     break;
 
                                 case 0:
+                                    Console.WriteLine("\nPovratak na menu\n");
                                     repeatCondition = false;
                                     break;
 
@@ -309,6 +310,7 @@ namespace EventCalendar
                     break;
 
                 case 0:
+                    Console.WriteLine("\nPovratak na menu\n");
                     break;
 
             }
@@ -446,6 +448,7 @@ namespace EventCalendar
                     break;
 
                 case 0:
+                    Console.WriteLine("\nPovratak na menu\n");
                     break;
 
             }
@@ -478,36 +481,46 @@ namespace EventCalendar
         static void RemovePersonFromThisEvent(Dictionary<Event, List<Person>> eventList, 
             KeyValuePair<Event, List<Person>> givenPair)
         {
-            Console.WriteLine("Osobe na eventu {0}:", givenPair.Key.Name);
 
-            PrintPeopleAtThisEvent(givenPair);
-            
-            Console.WriteLine("Unesite redni broj ispred osobe koju zelite maknuti s eventa");
-
-            var deletePersonIndex = ValidIntInputAndCheck(1, givenPair.Value.Count);
-
-            Console.WriteLine("Jeste li sigurni da zelite izbrisati " +
-                "{0} {1} s eventa {2}?", givenPair.Value[deletePersonIndex-1].FirstName,
-                givenPair.Value[deletePersonIndex - 1].LastName, givenPair.Key.Name);
-
-            Console.WriteLine("1 - Da, izbrisi osobu\n" +
-                "2 - Ne, nemoj izbrisati osobu (->povratak na menu)");
-
-            var deleteChoice = ValidIntInputAndCheck(1, 2);
-
-            switch(deleteChoice)
+            if(givenPair.Value.Count == 0)
             {
-                case 1:
-                    givenPair.Value.Remove(givenPair.Value[deletePersonIndex - 1]);
-
-                    Console.WriteLine("Brisanje osobe uspjesno, povratak na menu");
-
-                    break;
-
-                case 2:
-                    break;
-                    
+                Console.WriteLine("Nema osoba na eventu - povratak na menu");
             }
+
+            else
+            {
+                Console.WriteLine("Osobe na eventu {0}:", givenPair.Key.Name);
+
+                PrintPeopleAtThisEvent(givenPair);
+
+                Console.WriteLine("Unesite redni broj ispred osobe koju zelite maknuti s eventa");
+
+                var deletePersonIndex = ValidIntInputAndCheck(1, givenPair.Value.Count);
+
+                Console.WriteLine("Jeste li sigurni da zelite izbrisati " +
+                    "{0} {1} s eventa {2}?", givenPair.Value[deletePersonIndex - 1].FirstName,
+                    givenPair.Value[deletePersonIndex - 1].LastName, givenPair.Key.Name);
+
+                Console.WriteLine("1 - Da, izbrisi osobu\n" +
+                    "2 - Ne, nemoj izbrisati osobu (->povratak na menu)");
+
+                var deleteChoice = ValidIntInputAndCheck(1, 2);
+
+                switch (deleteChoice)
+                {
+                    case 1:
+                        givenPair.Value.Remove(givenPair.Value[deletePersonIndex - 1]);
+
+                        Console.WriteLine("Brisanje osobe uspjesno, povratak na menu");
+
+                        break;
+
+                    case 2:
+                        break;
+
+                }
+            }
+            
         }
 
 
@@ -885,11 +898,19 @@ namespace EventCalendar
         static void PrintPeopleAtThisEvent(KeyValuePair<Event, 
             List<Person>> givenPair)
         {
-            var counter = 1;
-            foreach (var person in givenPair.Value)
+            if(givenPair.Value.Count == 0)
             {
-                Console.WriteLine("{0}. {1} - {2} - {3}", counter++,
-                    person.FirstName, person.LastName, person.PhoneNumber);
+                Console.WriteLine("Nema osoba na eventu");
+            }
+
+            else
+            {
+                var counter = 1;
+                foreach (var person in givenPair.Value)
+                {
+                    Console.WriteLine("{0}. {1} - {2} - {3}", counter++,
+                        person.FirstName, person.LastName, person.PhoneNumber);
+                }
             }
         }
 
@@ -919,6 +940,7 @@ namespace EventCalendar
                 givenPair.Key.EndTime, eventDuration, givenPair.Value.Count);
 
         }
+        
 
     }
 }
